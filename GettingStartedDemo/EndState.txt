@@ -1,0 +1,36 @@
+
+        [Fact]
+        public void ShouldReturnAllCustomers()
+        {
+            var options = new DbContextOptionsBuilder<NorthwindContext>()
+                .UseInMemoryDatabase(databaseName: "ShouldReturnAllCustomers")
+                .Options;
+
+            var context = new NorthwindContext(options);
+
+            Seed(context);
+
+            var query = new GetCustomersQuery(context);
+
+            var result = query.Execute();
+
+            Assert.Equal(6, result.Count);
+        }
+
+        [Fact]
+        public void ShouldReturnCustomersInCorrectOrder()
+        {
+            var options = new DbContextOptionsBuilder<NorthwindContext>()
+                .UseInMemoryDatabase(databaseName: "ShouldReturnCustomersInCorrectOrder")
+                .Options;
+
+            var context = new NorthwindContext(options);
+
+            Seed(context);
+
+            var query = new GetCustomersQuery(context);
+
+            var result = query.Execute();
+
+            Assert.Equal("Beth Smith", result.First().Name);
+        }
